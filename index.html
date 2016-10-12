@@ -7,7 +7,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
       <!--Link to css stylesheets file-->
       <link rel="stylesheet" type="text/css"	href="assets/contacts.css">
-      
       <!--==============BOOTSTRAP===========-->
       <!-- CSS -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -22,7 +21,7 @@
       <nav class="navbar navbar-inverse">
         <!--Navbar search bar-->
         <form class="navbar-form navbar-right" role="search">
-          <div class="form-group">
+          <div class="form-group"><!--Navbar Search-->
             <input type="text" ng-model="search" class="form-control" placeholder="Search Directory" />
           </div>
             <div class="btn-group">
@@ -54,20 +53,29 @@
           <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
               <thead>
-                <tr>
-                  <th>id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Address</th>
-                  <th>City</th>
-                  <th>Zipcode</th>
-                  <th>State</th>
+                <tr><!--Adding ng-click to invole our sort parameters and gliphycon to implement it-->
+                  <th ng-click="sort('id')">id<span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('name')">Name<span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('email')">Email<span class="glyphicon sort-icon" ng-show="sortKey=='email'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('phone')">Phone<span class="glyphicon sort-icon" ng-show="sortKey=='phone'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('address')">Address<span class="glyphicon sort-icon" ng-show="sortKey=='address'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('city')">City<span class="glyphicon sort-icon" ng-show="sortKey=='city'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('zipcode')">Zipcode<span class="glyphicon sort-icon" ng-show="sortKey=='zipcode'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
+                  <th ng-click="sort('state')">State<span class="glyphicon sort-icon" ng-show="sortKey=='state'" ng-class="{'glyphicon-menu-up':reverse,'glyphicon-menu-down':!reverse}"></span>
+                  </th>
                 </tr>
               </thead>
-                <tr ng-repeat="contact in contacts | orderBy: 'name' | filter: search">
+                <!--Replace our ng-repeat with dir-paginate to implament pagination-->
+                <tr dir-paginate="contact in contacts | orderBy:sortKey:reverse | filter: search | itemsPerPage:10">
                   <td>{{contact.id}}</td>
-                  <td>{{contact.Name}}</td> <!--add correct info-->
+                  <td>{{contact.Name}}</td> 
                   <td>{{contact.Email}}</td>
                   <td>{{contact.Phone}}</td>
                   <td>{{contact.Address}}</td>
@@ -76,44 +84,52 @@
                   <td>{{contact.State}}</td>
                 </tr>
             </table>
+                <!--==PAGINATION CONTROLS==-->
+              	<dir-pagination-controls
+        					max-size="5"
+        					direction-links="true"
+        					boundary-links="true" >
+        				</dir-pagination-controls>
           </div>
+              <!--====Add New Contact Form===-->
             <form ng-submit="addContact()">
               <div class="form-group">
                 <label for="Input">Name:</label>
-                <input type="text" class="form-control" placeholder="Full Name" ng-model="newcontact.name">
+                <input type="text" ng-model="newName" class="form-control" placeholder="Full Name"/>
               </div>
               <div class="form-group">
                 <label for="Input">Email:</label>
-                <input type="text" class="form-control" placeholder="Email" ng-model="newcontact.email">
+                <input type="text" ng-model="newEmail" class="form-control" placeholder="Email"/>
               </div>
               <div class="form-group">
                 <label for="Input">Phone:</label>
-                <input type="text" class="form-control" placeholder="Phone Number" ng-model="newcontact.phone">
+                <input type="text" ng-model="newPhone" class="form-control" placeholder="Phone Number"/>
               </div>
               <div class="form-group">
                 <label for="Input">Address:</label>
-                <input type="text" class="form-control" placeholder="Address" ng-model="newcontact.address">
+                <input type="text" ng-model="newAddress" class="form-control" placeholder="Address"/>
               </div>
               <div class="form-group">
                 <label for="Input">City:</label>
-                <input type="text" class="form-control" placeholder="City" ng-model="newcontact.city">
+                <input type="text" ng-model="newCity" class="form-control" placeholder="City"/>
               </div>
               <div class="form-group">
                 <label for="Input">Zipcode:</label>
-                <input type="text" class="form-control" placeholder="Zipcode" ng-model="newcontact.postalcode">
+                <input type="text" ng-model="newZipcode" class="form-control" placeholder="Zipcode"/>
               </div>
               <div class="form-group">
                 <label for="Input">State:</label>
-                <input type="text" class="form-control" placeholder="State" ng-model="newcontact.state">
+                <input type="text" ng-model="newState" class="form-control" placeholder="State"/>
               </div>
                 <p><br/></p>
-                <input type="submit" value="Add New Contact"/>
+                <button ng-click="add()" type="button" class="btn btn-primary btn-lg active" ng-click="save()">Add Contact</button>
             </form>
 
 
-    
-    <script type="text/javascript" src="assets/angular.min.js"></script>
-    <script type="text/javascript" src="assets/contacts.js"></script>
-    <script type="text/javascript" src="assets/angular-route.min.js"</script>
+            <!--===Angular and Javascript script files===--> 
+            <script type="text/javascript" src="assets/angular.min.js"></script>
+            <script type="text/javascript" src="assets/dirPagination.js"></script>
+            <script type="text/javascript" src="assets/contacts.js"></script>
+            <script type="text/javascript" src="assets/angular-route.min.js"</script>
   </body>
 </html>
