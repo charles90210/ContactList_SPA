@@ -5,10 +5,19 @@ var app = angular.module('myContacts', ['angularUtils.directives.dirPagination']
 //Main contacts controller
 app.controller('ContactsController', ['$scope', '$http', function($scope, $http){
 
+//function to populate and display the modal with contact info
+$scope.activeContact = {};
+$scope.showDetails = showDetails;
+
+function showDetails(index){
+  $scope.activeContact = index;
+
+}
+
+
 //Function allowing us to add new contacts to the database
 $scope.addContact = function(){
 $scope.contacts.push({
-  id: $scope.newcontact.id
   Name: $scope.newcontact.Name,
   Email: $scope.newcontact.Email,
   Phone: $scope.newcontact.Phone,

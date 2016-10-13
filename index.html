@@ -14,6 +14,7 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <!-- JavaScript -->
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      
 
   </head>
   <body ng-controller="ContactsController" class ="container-fluid">
@@ -26,15 +27,7 @@
           </div>
             <div class="btn-group">
               <button type="button" class="btn btn-primary">Search</button>
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
               </button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Search by name</a></li>
-                  <li><a href="#">Search by city</a></li>
-                  <li><a href="#">Search by state</a></li>
-                </ul>
             </div>
         </form>
       <!--End of search bar-->
@@ -75,7 +68,16 @@
                 <!--Replace our ng-repeat with dir-paginate to implament pagination-->
                 <tr dir-paginate="contact in contacts | orderBy:sortKey:reverse | filter: search | itemsPerPage:10">
                   <td>{{contact.id}}</td>
-                  <td>{{contact.Name}}</td> 
+                  <td>
+                    <div>
+                      {{contact.Name}}
+                        <p><br/><br/></p>
+                        <!--===Adding modal to pop-up contact details===-->
+                        <!--change this button and add modal-->
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact" ng-click="ContactsController.showDetails(contact)">View Details</button>
+                    </div>
+                  </td>
+                  <!-- <td>{{contact.Name}}</td>  -->
                   <td>{{contact.Email}}</td>
                   <td>{{contact.Phone}}</td>
                   <td>{{contact.Address}}</td>
@@ -84,45 +86,95 @@
                   <td>{{contact.State}}</td>
                 </tr>
             </table>
+                  <!--===Modal content div===-->
+                  <div class="modal" id="contact">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h2>{{ContactsController.activeContact.Name}}</h2>
+                        </div>
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <p><strong>Email: </strong>{{ContactsController.activeContact.Email}}</p>
+                              <p><strong>Phone: </strong>{{ContactsController.activeContact.Phone}}</p>
+                              <p><strong>Address: </strong>{{ContactsController.activeContact.Address}}</p>
+                              <p><strong>City: </strong>{{ContactsController.activeContact.City}}</p>
+                              <p><strong>Zipcode: </strong>{{ContactsController.activeContact.Zipcode}}</p>
+                              <p><strong>State: </strong>{{ContactsController.activeContact.State}}</p>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-success pull-right" data-dismiss="modal">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>  
+                      </div>
+                    </div>
+                  </div>
+                
+
+
+
                 <!--==PAGINATION CONTROLS==-->
-              	<dir-pagination-controls
-        					max-size="5"
-        					direction-links="true"
-        					boundary-links="true" >
-        				</dir-pagination-controls>
+                	<dir-pagination-controls
+          					max-size="5"
+          					direction-links="true"
+          					boundary-links="true" >
+          				</dir-pagination-controls>
           </div>
               <!--====Add New Contact Form===-->
-            <form ng-submit="addContact()">
+            <form name="newContacts" ng-submit="addContact()" novalidate>
               <div class="form-group">
                 <label for="Input">Name:</label>
-                <input type="text" ng-model="newcontact.Name" class="form-control" placeholder="Full Name"/>
+                <input type="text" ng-model="newcontact.Name" class="form-control" name="Name" placeholder="Full Name" ng-required="true"/>
+                  <div ng-show="newContacts.Name.$touched && newContacts.Name.$invalid">
+                    <small class="sml">Enter a valid name</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">Email:</label>
-                <input type="text" ng-model="newcontact.Email" class="form-control" placeholder="Email"/>
+                <input type="email" ng-model="newcontact.Email" class="form-control" name="Email" placeholder="Email" ng-required="true"/>
+                  <div ng-show="newContacts.Email.$touched && newContacts.Email.$invalid">
+                    <small class="sml">Enter a valid Email</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">Phone:</label>
-                <input type="text" ng-model="newcontact.Phone" class="form-control" placeholder="Phone Number"/>
+                <input type="text" ng-model="newcontact.Phone" class="form-control" name="Phone" placeholder="Phone Number" ng-required="true"/>
+                  <div ng-show="newContacts.Phone.$touched && newContacts.Phone.$invalid">
+                    <small class="sml">Enter a valid phone number</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">Address:</label>
-                <input type="text" ng-model="newcontact.Address" class="form-control" placeholder="Address"/>
+                <input type="text" ng-model="newcontact.Address" class="form-control" name="Address" placeholder="Address" ng-required="true"/>
+                  <div ng-show="newContacts.Address.$touched && newContacts.Address.$invalid">
+                    <small class="sml">Enter a valid address</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">City:</label>
-                <input type="text" ng-model="newcontact.City" class="form-control" placeholder="City"/>
+                <input type="text" ng-model="newcontact.City" class="form-control" name="City" placeholder="City" ng-required="true"/>
+                  <div ng-show="newContacts.City.$touched && newContacts.City.$invalid">
+                    <small class="sml">Enter a valid city</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">Zipcode:</label>
-                <input type="text" ng-model="newcontact.Zipcode" class="form-control" placeholder="Zipcode"/>
+                <input type="text" ng-model="newcontact.Zipcode" class="form-control" name="Zipcode" placeholder="Zipcode" ng-required="true"/>
+                  <div ng-show="newContacts.Zipcode.$touched && newContacts.Zipcode.$invalid">
+                    <small class="sml">Enter a valid zipcode</small>
+                  </div>
               </div>
               <div class="form-group">
                 <label for="Input">State:</label>
-                <input type="text" ng-model="newcontact.State" class="form-control" placeholder="State"/>
+                <input type="text" ng-model="newcontact.State" class="form-control" name="State" placeholder="State" ng-required="true"/>
+                  <div ng-show="newContacts.State.$touched && newContacts.State.$invalid">
+                    <small class="sml">Enter a valid state</small>
+                  </div>
               </div>
                 <p><br/></p>
-                <input type="submit" value="Add New Contact" class="add"/>
+                <input type="submit" value="Add New Contact" class="add" ng-disabled="newContacts.$invalid"/>
             </form>
 
 

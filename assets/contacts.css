@@ -1,10 +1,26 @@
+/*styling for add contact button*/
 .add{
   background: #157ab5;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 5px;
+  border-radius: 5px;
   cursor: pointer;
   color: #FFFFFF;
   border: 0;
-  box-shadow: 2px 2px 2px rgba(20,20,20,0.1);
-  font-size: 16px;
+  font-size: 14px;
+}
+
+/* Validating my new contact form so that users can fill it out properly */
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched{
+  border: 2px solid red;
+}
+/*styling for validation messages on form elements*/
+.sml{
+  color: red;
+  dsiplay: block;
+  text-align: center;
+}
+/*styling to disable add new contact button unless form inputs are valid*/
+input[disabled="disabled"]{
+  opacity: 0.4;
+  cursor: not-allowed !important;
 }
