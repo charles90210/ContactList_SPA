@@ -74,7 +74,7 @@
                         <p><br/><br/></p>
                         <!--===Adding modal to pop-up contact details===-->
                         <!--change this button and add modal-->
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact" ng-click="ContactsController.showDetails(contact)">View Details</button>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contact-info" ng-click="ContactsController.showDetails(contact)">View Details</button>
                     </div>
                   </td>
                   <!-- <td>{{contact.Name}}</td>  -->
@@ -87,7 +87,7 @@
                 </tr>
             </table>
                   <!--===Modal content div===-->
-                  <div class="modal" id="contact">
+                  <div class="modal" id="contact-info">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -96,12 +96,12 @@
                         <div class="modal-body">
                           <div class="row">
                             <div class="col-md-6">
-                              <p><strong>Email: </strong>{{ContactsController.activeContact.Email}}</p>
-                              <p><strong>Phone: </strong>{{ContactsController.activeContact.Phone}}</p>
-                              <p><strong>Address: </strong>{{ContactsController.activeContact.Address}}</p>
-                              <p><strong>City: </strong>{{ContactsController.activeContact.City}}</p>
+                              <p><strong>Email:</strong>{{ContactsController.activeContact.Email}}</p>
+                              <p><strong>Phone:</strong>{{ContactsController.activeContact.Phone}}</p>
+                              <p><strong>Address:</strong>{{ContactsController.activeContact.Address}}</p>
+                              <p><strong>City:</strong>{{ContactsController.activeContact.City}}</p>
                               <p><strong>Zipcode: </strong>{{ContactsController.activeContact.Zipcode}}</p>
-                              <p><strong>State: </strong>{{ContactsController.activeContact.State}}</p>
+                              <p><strong>State:</strong>{{ContactsController.activeContact.State}}</p>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-success pull-right" data-dismiss="modal">Close</button>
                               </div>

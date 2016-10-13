@@ -41,7 +41,7 @@ $scope.contacts = [];
 $http.get('assets/contacts.json').success(function(data){
     $scope.contacts = data;
 //This function here allows me push my json data into the bootstrap Table 
-$(function(){$('#table').bootstrapTable({data: contacts})})
+$(function(){$('#table').bootstrapTable({data: contact})})
 
 });
    
